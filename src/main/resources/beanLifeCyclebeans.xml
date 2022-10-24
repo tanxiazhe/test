@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <!--   <bean id="beanPostProcessor" class="com.spring.ioc.springBeanTest.lifeCycle.MyBeanPostProcessor">
+    </bean>
+
+    <bean id="instantiationAwareBeanPostProcessor" class="com.spring.ioc.springBeanTest.lifeCycle.MyInstantiationAwareBeanPostProcessor">
+    </bean>
+
+    <bean id="beanFactoryPostProcessor" class="com.spring.ioc.springBeanTest.lifeCycle.MyBeanFactoryPostProcessor">
+    </bean>-->
+
+    <bean id="person2" class="com.spring.ioc.springBeanTest.lifeCycle.Person" init-method="myInit"
+          destroy-method="myDestory" >
+        <property name="name" value="zz"></property>
+    </bean>
+
+    <bean id="person3" class="com.spring.ioc.springBeanTest.lifeCycle.Person" init-method="myInit"
+          destroy-method="myDestory" scope="prototype" >
+        <property name="name" value="zz3"></property>
+    </bean>
+
+    <!--<bean id="person" class="com.spring.ioc.springBeanTest.lifeCycle.Person" init-method="myInit"-->
+          <!--destroy-method="myDestory" p:name="张三" p:address="广州"-->
+          <!--p:phone="15900000000"/>-->
+
+    <!--<bean id = "prototypeTest" class="com.spring.ioc.springBeanTest.lifeCycle.PrototypeTest"></bean>-->
+</beans>

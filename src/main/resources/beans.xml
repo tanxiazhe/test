@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+  
+<context:annotation-config/>
+        
+    <bean id = "springAction" class="com.spring.ioc.springBeanTest.SpringAction">
+       <!--(1)依赖注入,配置当前类中相应的属性-->  
+        <property name="springDao" ref="springDao"></property>
+    </bean>
+    
+    <bean id ="springDao" class="com.spring.ioc.springBeanTest.SpringDaoImpl">
+    </bean>
+    
+    <bean id = "springAction2" class="com.spring.ioc.springBeanTest.SpringAction2">
+       <!--(2)创建构造器注入,如果主类有带参的构造方法则需添加此配置-->  
+        <constructor-arg type="com.spring.ioc.springBeanTest.SpringDao" ref="springDao"></constructor-arg>
+        <constructor-arg index= "1" ref= "user"> </constructor-arg>
+    </bean>
+    
+    <bean id="user"  class ="com.spring.ioc.springBeanTest.User"></bean>
+     
+     <!--配置bean,配置后该类由spring管理-->
+    <bean name="springAction3" class="com.spring.ioc.springBeanTest.SpringAction3" >
+        <!--(3)使用静态工厂的方法注入对象,对应下面的配置文件(3)-->
+        <property name="staticFactoryDao" ref="staticFactoryDao"></property>
+    </bean>
+    
+    <!--(3)此处获取对象的方式是从工厂类中获取静态方法-->
+    <bean name="staticFactoryDao" class="com.spring.ioc.springBeanTest.DaoFactory" factory-method="getStaticFactoryDaoImpl"></bean>
+    
+    <!--配置bean,配置后该类由spring管理-->
+    <bean name="springAction4" class="com.spring.ioc.springBeanTest.SpringAction4">
+        <!--(4)使用实例工厂的方法注入对象,对应下面的配置文件(4)-->
+        <property name="factoryDao" ref="factoryDao"></property>
+    </bean>
+    
+    <!--(4)此处获取对象的方式是从工厂类中获取实例方法-->
+    <bean name="daoFactory" class="com.spring.ioc.springBeanTest.DaoFactory"></bean>
+    <bean name="factoryDao" factory-bean="daoFactory" factory-method="getFactoryDaoImpl"></bean>
+    
+    <bean id="otherBean1" class="com.spring.ioc.springBeanTest.OtherBean1" >
+        <property name="name" value="haha"></property>
+     </bean>
+     <bean id="otherBean2" class="com.spring.ioc.springBeanTest.OtherBean2">
+         <property name="name" value="heihei"></property>
+         <property name="id" value="#{ T(java.lang.Math).random() * 100 }"></property>
+     </bean>
+    
+    <bean id="testCollection" class="com.spring.ioc.springBeanTest.TestCollection">
+     <!--    List类型的属性 -->
+        <property name="listTest">
+         <!--    为list类型的属性注入值时，使用<list>元素 -->
+            <list>
+                <!-- 只要类型满足，每个<value>，<ref>，<bean>都可以配置一个list的元素 -->
+                <value>ListA</value>
+                <value>ListB</value>
+                <value>ListC</value>
+            </list>
+        </property>
+     
+      <!--   Map类型的属性 -->
+        <property name="mapTest">
+     <!--        为map类型的属性注入值时，使用<map>元素 -->
+            <map>
+             <!--    每一个<entry>都为<map>配置一个K-V对，同样， -->
+                <entry key="key1" value="value1" />
+              <!--   下面这个value指向了在此Spring文件中定义的另一个叫object的Bean -->
+                <entry key="key2" value-ref="otherBean1" />
+            </map>
+        </property>
+     
+      <!--   Set类型的属性 -->
+        <property name="setTest">
+          <!--   为set类型的属性注入值时，使用<set>元素 -->
+            <set>
+                <!-- 只要类型满足，每个<value>，<ref>，<bean>都可以配置一个list的元素 -->
+                <value>SetA</value>
+            <!--     下面是一个嵌套Bean的定义。关于什么是嵌套Bean，请看：http://my.oschina.net/itblog/blog/204378 -->
+                <bean class="com.spring.ioc.springBeanTest.OtherBean1" />
+                <!-- 下面引用了此Spring文件中定义的另一个Bean -->
+                <ref local="otherBean2" />
+            </set>
+        </property>
+     
+    <!--   数组类型的属性 -->
+        <property name="arrayTest">
+          <!--   为数组类型的属性注入值时，使用<list>元素 -->
+            <list>
+               <!--  只要类型满足，每个<value>，<ref>，<bean>都可以配置一个list的元素 -->
+                <value>Array1</value>
+                <bean class="com.spring.ioc.springBeanTest.OtherBean1" />
+                <ref local="otherBean2" />
+            </list>
+        </property>
+        
+        <!-- Properties类型的属性 -->
+        <property name="propertiesTest">
+            <props>
+             <!--    每个<prop>元素指定一个属性项，其中key指定属性名 -->
+                <prop key="prop1">value1</prop>
+                <prop key="prop2">value2</prop>
+            </props>
+        </property>
+       
+    </bean>
+    
+   
+  
+
+</beans>

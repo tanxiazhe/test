@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	   <!--<bean id="E" class="com.test.beanfactorytory.England" />
+	<bean id="S" class="com.test.beanfactorytory.Spain" />
+	<bean id="P" class="com.test.beanfactorytory.Portugal" />
+	
+	
+	
+ <bean id = "testAdvisor" class="com.test.AOP.TestAdvisor"></bean>
+	<bean id = "testAOP" class="org.springframework.aop.ProxyFactoryBean">
+	   <property name="proxyinterfaces">
+	       <value>com.test.AOP.Abcinterface</value>
+	   </property>
+	   <property name="target">
+	       <bean class="com.test.AOP.TestTarget"></bean>
+	   </property>
+	   <property name="interceptorNames">
+	       <list>
+	           <value>testAdvisor</value>
+	       </list>
+	   </property>
+	
+	</bean> -->
+	
+	
+	<bean id="afterAdvice1" class="com.test.aop.proxyFactory.AfterAdvice1" />
+    <bean id="afterAdvice2" class="com.test.aop.proxyFactory.AfterAdvice2" />
+    <bean id="beforeAdvice1" class="com.test.aop.proxyFactory.BeforeAdvice1" />
+    <bean id="beforeAdvice2" class="com.test.aop.proxyFactory.BeforeAdvice2" />
+    
+    <bean id="loginService" class="com.test.aop.proxyFactory.LoginServiceImpl"/>
+    
+    <bean id="loginServiceProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!--这里代理的是接口 -->
+        <property name="proxyInterfaces">
+            <value>com.test.aop.proxyFactory.LoginService</value>
+        </property>
+        <!--是ProxyFactoryBean要代理的目标类 -->
+        <property name="target">
+            <ref bean="loginService" />
+        </property>
+        <!--程序中的Advice -->
+        <property name="interceptorNames">
+            <list>
+                <value>afterAdvice1</value>
+                <value>afterAdvice2</value>
+                <value>beforeAdvice1</value>
+                <value>beforeAdvice2</value>
+            </list>
+        </property>
+    </bean>
+	
+	
+</beans>

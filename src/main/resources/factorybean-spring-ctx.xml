@@ -1,0 +1,7 @@
+<beans >
+
+    <bean id="tool" class="com.spring.factoryBean.ToolFactory">
+    <property name="factoryId" value="9090"/>
+    <property name="toolId" value="1"/>
+    </bean>
+</beans>
